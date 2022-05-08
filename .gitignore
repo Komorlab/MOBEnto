@@ -1,2 +1,6 @@
-ref/Human/*
-
+ref/Human/*.fa
+ref/Human/*.array
+ref/Human/*.tab
+ref/Human/*.files
+ref/Human/*.log
+ref/Human/*.reads
