@@ -1,6 +1,3 @@
-# MOBEnto
-Quantification of Haplotypes from Multiplexed Genome Editing Using Next-Generation Sequencing Data
-
 <!-- PROJECT LOGO -->
 <br />
 <div align="center">
@@ -22,3 +19,12 @@ Quantification of Haplotypes from Multiplexed Genome Editing Using Next-Generati
     <a href="https://github.com/Broccolito/MOBEnto/issues">Request Feature</a>
   </p>
 </div>
+
+## About The 
+
+### Built With
+
+* [R v4.2.0](https://cran.r-project.org/bin/windows/base/)
+* [Shiny](https://shiny.rstudio.com/)
+
+<p align="right">(<a href="#top">back to top</a>)</p>
