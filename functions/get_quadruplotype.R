@@ -88,7 +88,7 @@ get_quadruplotype = function(read1_sam_filename, read2_sam_filename, meta_snippe
   
   quadruplotype_status = table(quadruplotype_summary$quadruplotype_status)
   quadruplotype_status = tibble(quadruplotype = names(quadruplotype_status),
-                                count = quadruplotype_status)
+                                count = as.numeric(quadruplotype_status))
   
   return(quadruplotype_status)
   

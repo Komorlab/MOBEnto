@@ -4,3 +4,10 @@ ref/Human/*.tab
 ref/Human/*.files
 ref/Human/*.log
 ref/Human/*.reads
+
+ref/Mouse/*.fa
+ref/Mouse/*.array
+ref/Mouse/*.tab
+ref/Mouse/*.files
+ref/Mouse/*.log
+ref/Mouse/*.reads

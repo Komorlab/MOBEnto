@@ -1,22 +1,25 @@
 ui = fluidPage(
-  title = "MOBEnto",
+  title = "MOBEnto v0.1",
   titlePanel("MOBEnto"),
+  
+  theme = bs_theme(version = 4, bootswatch = "cosmo"),
   
   tabsetPanel(
     
     tabPanel("Generate Reference", fluid = TRUE,
+             br(),
              sidebarLayout(
                sidebarPanel = sidebarPanel(
-                 
-                 
+                 p("Create Customized Reference Sequence Functionality is not Available Yet...\n")
                ),
                mainPanel = mainPanel(
-                 
+                 reactableOutput("file_tree")
                )
              )
     ),
     
     tabPanel("Perform Alignment", fluid = TRUE,
+             br(),
              sidebarLayout(
                sidebarPanel = sidebarPanel(
                  
@@ -41,14 +44,14 @@ ui = fluidPage(
                ),
                mainPanel = mainPanel(
                  verbatimTextOutput("ref_used"),
-                 dataTableOutput("uploaded_fastq_files"),
-                 dataTableOutput("read_summary_table")
+                 reactableOutput("uploaded_fastq_files"),
+                 reactableOutput("read_summary_table")
                )
              )
     ),
     
     tabPanel("Create Metafile", fluid = TRUE,
-             
+             br(),
              sidebarLayout(
                sidebarPanel = sidebarPanel(
                  
@@ -147,18 +150,13 @@ ui = fluidPage(
                  actionButton(inputId = "update_meta", "Update Meta")
                  
                  
-                 
-                 
-                 
-                 
-                 
                ),
                
                
                mainPanel = mainPanel(
                  
                  verbatimTextOutput("meta_table"),
-                 dataTableOutput("aligned_sam_table")
+                 reactableOutput("aligned_sam_table")
                  
                )
              )
@@ -166,6 +164,7 @@ ui = fluidPage(
     ),
     
     tabPanel("Quantify Haplotype", fluid = TRUE,
+             br(),
              sidebarLayout(
                sidebarPanel = sidebarPanel(
                  
@@ -174,7 +173,7 @@ ui = fluidPage(
                ),
                mainPanel = mainPanel(
                  
-                 dataTableOutput("haplotype_table")
+                 reactableOutput("haplotype_table")
                  
                )
              )

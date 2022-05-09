@@ -2,6 +2,19 @@ server = function(input, output, session) {
   
   values = reactiveValues()
   
+  output$file_tree = renderReactable({
+    ref_dir = list.files("ref")
+    ref_fies = sapply(ref_dir, function(x){
+      paste(list.files(path = file.path("ref",x), pattern = ".fa"), collapse = "; ")
+    }) %>%
+      unlist() %>%
+      as.character()
+    
+    ref_table = tibble(Species = ref_dir, Chromosome = ref_fies)
+    reactable(ref_table)
+  })
+  
+  
   output$ref_used = renderText({
     req(input$species)
     req(input$chromosome)
@@ -10,7 +23,7 @@ server = function(input, output, session) {
     paste0("Reference file used: \n", reference_file)
   })
   
-  output$uploaded_fastq_files = renderDataTable({
+  output$uploaded_fastq_files = renderReactable({
     
     req(input$read1)
     req(input$read2)
@@ -39,7 +52,7 @@ server = function(input, output, session) {
     
     brief_uploaded_fastq_info = uploaded_fastq_info %>%
       select(`R1`, `R1 File Size (Kb)`, `R2`, `R2 File Size (Kb)`)
-    brief_uploaded_fastq_info
+    reactable(brief_uploaded_fastq_info)
     
   })
   
@@ -72,8 +85,10 @@ server = function(input, output, session) {
           file.exists(read1_path),
           file.exists(read2_path)
         )){
-          align(index = reference_file, readfile1 = read1_path, output_format = "SAM", type = "dna", output_file = file.path("temp", read1_sam_filename))
-          align(index = reference_file, readfile1 = read2_path, output_format = "SAM", type = "dna", output_file = file.path("temp", read2_sam_filename))
+          align(index = reference_file, readfile1 = read1_path, output_format = "SAM", 
+                type = "dna", output_file = file.path("temp", read1_sam_filename))
+          align(index = reference_file, readfile1 = read2_path, output_format = "SAM", 
+                type = "dna", output_file = file.path("temp", read2_sam_filename))
         }else{
           cat("Reference File(s) and/or Sequencing File(s) Missing...\n")
         }
@@ -126,26 +141,29 @@ server = function(input, output, session) {
     
   })
   
-  output$read_summary_table = renderDataTable({
+  output$read_summary_table = renderReactable({
     
     summary_table = tibble(
-      `File` = NULL,
-      `Total Reads` = NULL,
-      `Mapped Reads` = NULL,
-      `Uniquely Mapped Reads` = NULL,
-      `Multiple Mapped Reads` = NULL,
-      `Unmapped Reads` = NULL,
-      `Indels` = NULL
+      `File` = NA,
+      `Total Reads` = NA,
+      `Mapped Reads` = NA,
+      `Uniquely Mapped Reads` = NA,
+      `Multiple Mapped Reads` = NA,
+      `Unmapped Reads` = NA,
+      `Indels` = NA
     )
     
     try({
       summary_table = values[["read_alignment_summary"]]
     }, silent = TRUE)
     
-    summary_table
+    if(!is.null(summary_table)){
+      reactable(summary_table)
+    }
+    
   })
   
-  output$aligned_sam_table = renderDataTable({
+  output$aligned_sam_table = renderReactable({
     sam_table = tibble(
       r1 = NULL,
       r2 = NULL,
@@ -156,7 +174,10 @@ server = function(input, output, session) {
       sam_table = values[["sam_paths"]]
     }, silent = TRUE)
     
-    sam_table
+    if(!is.null(sam_table)){
+      reactable(sam_table)
+    }
+    
   })
   
   observeEvent(input$update_meta,{
@@ -219,41 +240,44 @@ server = function(input, output, session) {
   })
   
   observeEvent(input$generate_haplotype_table, {
-    output$haplotype_table = renderDataTable({
+    output$haplotype_table = renderReactable({
       
       sam_paths = values[["sam_paths"]]
+      meta_snippet = values[["meta_snippet"]]
       read1_headers = sam_paths$r1
       read2_headers = sam_paths$r2
       read1_sam_filenames = sam_paths$r1_sam
       read2_sam_filenames = sam_paths$r2_sam
-      meta_snippet = values[["meta_snippet"]]
       
       print(kable(sam_paths))
       
-      quadruplotypes = tibble(
-        quadruplotype = c("p1nbenct_p2nbenct")
-      )
-      
-      withProgress(message = "Performing Short Sequence Alignment...", value = 0, {
+      withProgress(message = "Quantifying Haplotypes...", value = 0, {
         
+        quadruplotypes = tibble(
+          quadruplotype = c("p1nbenct_p2nbenct")
+        )
         for(i in 1:dim(sam_paths)[1]){
           table_header = get_common_string(read1_headers[i], read2_headers[i])
+          table_header = paste0(table_header, "X")
           quadruplotype_snippet = get_quadruplotype(read1_sam_filenames[i],
                                                     read2_sam_filenames[i],
                                                     meta_snippet)
           names(quadruplotype_snippet)[2] = table_header
           quadruplotypes = full_join(quadruplotypes, quadruplotype_snippet,
                                      by = "quadruplotype")
+          incProgress(1/dim(sam_paths)[1], detail = paste0("Processing ", table_header))
         }
-        
-        incProgress(1/dim(sam_paths)[1], detail = paste0("Processing ", table_header))
         
       })
       
-      quadruplotypes
+      print(kable(quadruplotypes))
+      if(!is.null(quadruplotypes)){
+        reactable(quadruplotypes)
+      }
       
     })
   })
+  
   
   session$onSessionEnded(function() {
     stopApp()

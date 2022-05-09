@@ -18,6 +18,16 @@ if(!require("shinyWidgets")){
   library("shinyWidgets")
 }
 
+if(!require("bslib")){
+  install.packages("bslib")
+  library("bslib")
+}
+
+if(!require("reactable")){
+  install.packages("reactable")
+  library("reactable")
+}
+
 if(!require("dplyr")){
   install.packages("dplyr")
   library("dplyr")
@@ -43,9 +53,9 @@ if(!require("stringdist")){
   library("stringdist")
 }
 
-source("get_quadruplotype.R")
-source("read_sam.R")
-source("get_common_string.R")
+source("functions/get_quadruplotype.R")
+source("functions/read_sam.R")
+source("functions/get_common_string.R")
 source("ui.R")
 source("server.R")
 
