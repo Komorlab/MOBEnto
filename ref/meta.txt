@@ -1,0 +1,5 @@
+Human
+http://hgdownload.cse.ucsc.edu/goldenPath/hg19/bigZips/chromFa.tar.gz
+
+Mouse
+https://hgdownload.cse.ucsc.edu/goldenPath/mm39/bigZips/mm39.chromFa.tar.gz
