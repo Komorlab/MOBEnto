@@ -33,11 +33,17 @@ ui = fluidPage(
                              choices = c(seq(1,22), "X", "Y", "M"),
                              selected = "1"),
                  
+                 # fileInput(inputId = "read1", label = "Upload R1 Files (fastq,gz)", 
+                 #           multiple = TRUE, accept = ".fastq.gz"),
+                 # 
+                 # fileInput(inputId = "read2", label = "Upload R2 Files (fastq,gz)", 
+                 #           multiple = TRUE, accept = ".fastq.gz"),
+                 
                  fileInput(inputId = "read1", label = "Upload R1 Files (fastq,gz)", 
-                           multiple = TRUE, accept = ".fastq.gz"),
+                           multiple = TRUE, accept = NULL),
                  
                  fileInput(inputId = "read2", label = "Upload R2 Files (fastq,gz)", 
-                           multiple = TRUE, accept = ".fastq.gz"),
+                           multiple = TRUE, accept = NULL),
                  
                  actionButton(inputId = "start_alignment", label = "Run Alignment")
                  
