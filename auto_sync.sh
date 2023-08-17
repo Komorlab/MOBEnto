@@ -1,5 +1,5 @@
 git add .
-git commit -m "automatic commit"
-git pull origin main --allow-unrelated-histories
-git push origin HEAD:main
+git commit -m "Automatic Sync"
+git pull origin main
+git push origin main
 
