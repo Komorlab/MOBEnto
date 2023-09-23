@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 ui = fluidPage(
   title = "MOBEnto v0.1",
   titlePanel("MOBEnto"),
@@ -183,7 +182,7 @@ ui = fluidPage(
   )
   
 )
-=======
+
 ui = fluidPage(
   title = "MOBEnto v0.1",
   titlePanel("MOBEnto"),
@@ -374,4 +373,4 @@ ui = fluidPage(
   )
   
 )
->>>>>>> 6ad0d45c3318101ede92ba40befd7c2f2fb7dba0
+
